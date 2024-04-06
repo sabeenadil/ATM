@@ -27,6 +27,39 @@ if (pinAnswer.pin === myPin) {
   ]);
 
   if (operationAns.operation === "Cash Withdraw") {
+    let withdrawAns = await inquirer.prompt([{
+      name: "withdrawOption",
+      type: "list",
+      message: "Select a withdrawl Method.",
+      choices: ["Fast Cash", "Enter Amount"]
+
+    }]) 
+
+    if(withdrawAns.withdrawOption === "Fast Cash"){
+      let fastCashAns = await inquirer.prompt([{
+
+        name: "fastCash",
+        type: "list",
+        message: "Select Amount",
+        choices: [1000, 2000, 3000, 5000]
+
+       }])
+
+       if(fastCashAns.fastCash > myBalance){
+        console.log("Insufficient Balance");
+       }
+
+       else{
+
+        myBalance -= fastCashAns.fastCash
+       console.log(`${fastCashAns.fastCash} withdrawl successfully.`)
+        console.log(`Your remaining amount is: ${myBalance} `)
+
+       }
+
+    }
+    else if(withdrawAns.withdrawOption === "Enter Amount")
+{    
     let amountAns = await inquirer.prompt([
       {
         name: "amount",
@@ -42,9 +75,10 @@ if (pinAnswer.pin === myPin) {
 
       console.log(`Your remaining balance is: ${myBalance}.`);
     }
+  }
   } else if (operationAns.operation === "Check Balance") {
     console.log(`Your balance is: ${myBalance}.`);
   }
 } else {
   console.log("Incorrect pin number.");
-}
+};
